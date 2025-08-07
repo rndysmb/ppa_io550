@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Anak extends Authenticatable
 {
-    protected $table = 'akun_anak';
+    protected $table = 'data_anak';
     protected $fillable = ['id', 'nomor_induk', 'password', 'nama', 'mentor_id'];
     public $timestamps = false;
 

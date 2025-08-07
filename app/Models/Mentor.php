@@ -9,7 +9,7 @@ class Mentor extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'mentors';
+    protected $table = 'data_mentor';
     protected $fillable = ['username', 'nama', 'password'];
     public $timestamps = false;
 
