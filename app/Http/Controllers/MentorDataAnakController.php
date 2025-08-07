@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Anak;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class MentorDataAnakController extends Controller
 {
@@ -26,14 +27,14 @@ class MentorDataAnakController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'nomor_induk' => 'required|string|unique:akun_anak,nomor_induk',
+            'nomor_induk' => 'required|string|unique:data_anak,nomor_induk',
             'password' => 'required|string|min:6',
         ]);
 
         Anak::create([
             'nama' => $request->nama,
             'nomor_induk' => $request->nomor_induk,
-            'password' => $request->password, // Tidak di-hash
+            'password' => Hash::make($request->password), // Hash password
             'mentor_id' => Auth::id(),
         ]);
 
@@ -64,7 +65,8 @@ class MentorDataAnakController extends Controller
 
         $request->validate([
             'nama' => 'required|string|max:255',
-            'nomor_induk' => 'required|string|unique:akun_anak,nomor_induk,' . $anak->id,
+            'nomor_induk' => 'required|string|unique:data_anak,nomor_induk,' . $anak->id,
+
             'password' => 'nullable|string|min:6',
         ]);
 
@@ -72,7 +74,7 @@ class MentorDataAnakController extends Controller
         $anak->nomor_induk = $request->nomor_induk;
 
         if ($request->filled('password')) {
-            $anak->password = $request->password;
+            $anak->password = Hash::make($request->password); // Hash password
         }
 
         $anak->save();
